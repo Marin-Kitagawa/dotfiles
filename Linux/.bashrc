@@ -210,6 +210,8 @@ rm themes.txt  # Cleanup : Removing the temporary file
 
 neofetch
 
+# This is to start the `picom` composite manager for i3WM. If it is already running, then each time the shell is started, it will throw an error which it redirected to /dev/null here
+picom -b 2>/dev/null
 
 # Custom aliases
 alias cls='clear'
