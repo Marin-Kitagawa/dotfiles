@@ -9,7 +9,10 @@ Import-Module -Name posh-git
 Import-Module -Name Terminal-Icons
 Import-Module oh-my-posh
 Set-Alias desktop "Desktop.ps1"
-Set-PoshPrompt -Theme jandedobbeleer
+
+$theme = ls $env:LOCALAPPDATA\Programs\oh-my-posh\themes | Get-Random
+Set-PoshPrompt -Theme $theme.Name.split('.')[0]
+Clear-Variable theme
 
 Register-ArgumentCompleter -Native -CommandName winget -ScriptBlock {
     param($wordToComplete, $commandAst, $cursorPosition)
