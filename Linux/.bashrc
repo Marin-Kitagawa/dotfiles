@@ -207,6 +207,7 @@ ls ~/.poshthemes > themes.txt  # Save the theme names in a temporary file
 theme=$(cat themes.txt | shuf -n 1)
 eval "$(oh-my-posh --init --shell bash --config ~/.poshthemes/$theme)"
 rm themes.txt  # Cleanup : Removing the temporary file
+unset theme
 
 neofetch
 
