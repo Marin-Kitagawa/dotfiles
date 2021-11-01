@@ -726,12 +726,3 @@ $GitPromptSettings.AfterStatus.ForegroundColor = [ConsoleColor]::Blue
 function sccwd() {
     pwd | Set-Clipboard
 }
-
-function fuck() {
-    echo "Fuck Windows. Windows is the most disgusting fucking piece of shit"
-    echo "Fucking this fucking moronic terminal now"
-    for($i=0;$i++ -lt 10;){
-        echo $i
-    }
-    exit
-}
