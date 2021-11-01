@@ -10,7 +10,7 @@ Import-Module -Name Terminal-Icons
 Import-Module oh-my-posh
 Set-Alias desktop "Desktop.ps1"
 
-$theme = ls $env:LOCALAPPDATA\Programs\oh-my-posh\themes | Get-Random
+$theme = ls ~\OneDrive\Documents\PowerShell\Modules\oh-my-posh\5.16.4\themes\ | Get-Random
 Set-PoshPrompt -Theme $theme.Name.split('.')[0]
 Clear-Variable theme
 
