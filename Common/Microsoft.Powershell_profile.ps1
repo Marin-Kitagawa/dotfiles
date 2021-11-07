@@ -735,3 +735,21 @@ function fuck() {
     }
     exit
 }
+
+function BitlockerKey($drive) {
+    sudo manage-bde -protectors "${drive}:" -get
+}
+
+function BDEKeys() {
+    $drives = @()
+    gdr | ForEach-Object {
+        if($_.Root -match "${$_.Name}:\\$") {
+            $drives += $_.Name
+        }
+    }
+    $drives | ForEach {
+        echo "$_ Drive"
+        echo "___________________________________"
+        BitlockerKey $_
+    }
+}
