@@ -17,6 +17,8 @@ Plug 'bryanmylee/vim-colorscheme-icons'
 Plug 'junegunn/vim-journal'
 Plug 'junegunn/rainbow_parentheses.vim'
 Plug 'liuchengxu/vim-which-key'
+" Rust language support
+Plug 'rust-lang/rust.vim'
 " Functionalities
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-sensible'
