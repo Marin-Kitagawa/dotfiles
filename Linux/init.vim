@@ -1,3 +1,12 @@
+#####################################################
+#                                                   #
+#          Don't forget to add `dos2unix`           #
+#                                                   #
+#####################################################
+
+
+
+
 execute 'source' fnamemodify(expand('<sfile>'), ':h').'/main.vim'
 " Install Vim-Plug
 " Install Vim-Plug in ~/.config/nvim/autoload and NOT inside nvim-data
