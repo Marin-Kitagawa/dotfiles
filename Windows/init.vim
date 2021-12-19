@@ -19,6 +19,10 @@ Plug 'bryanmylee/vim-colorscheme-icons'
 Plug 'junegunn/vim-journal'
 Plug 'junegunn/rainbow_parentheses.vim'
 Plug 'liuchengxu/vim-which-key'
+" Clojure
+Plug 'Olical/conjure'
+" Dressing
+Plug 'stevearc/dressing.nvim'
 " Rust language support
 Plug 'rust-lang/rust.vim'
 " Functionalities
@@ -265,4 +269,7 @@ nmap <Tab> :bnext<CR>
 nmap <S-Tab> :bprevious<CR>
 autocmd vimenter * ++nested colorscheme gruvbox
 set scl=no
+let g:neovide_fullscreen=1
+let g:neovide_transparency=0.5
+let g:neovide_no_idle=v:true
 filetype plugin indent on    " required
