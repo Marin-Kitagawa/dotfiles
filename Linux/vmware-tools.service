@@ -1,0 +1,8 @@
+[Unit]
+Description=VMWare Tools Service
+
+[Service]
+ExecStart=/home/voidflow/Autostart/vmware.sh
+
+[Install]
+WantedBy=multi-user.target
