@@ -533,6 +533,9 @@ _Pacdiff() {
 ################################################################################
 
 # Random theme chooser for Oh my Posh
+# Added BREWPATH here because I will install oh-my-posh using Homebrew
+BREWPATH="/home/linuxbrew/.linuxbrew/bin"
+echo $PATH | grep -q $BREWPATH || export PATH="$PATH:$BREWPATH"
 ls ~/.poshthemes > themes.txt  # Save the theme names in a temporary file
 theme=$(cat themes.txt | shuf -n 1)
 eval "$(oh-my-posh --init --shell bash --config ~/.poshthemes/$theme)"
