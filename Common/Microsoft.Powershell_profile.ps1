@@ -1,18 +1,14 @@
 using namespace System.Management.Automation
 using namespace System.Management.Automation.Language
- 
+
 # if ($host.Name -eq 'ConsoleHost')
 # {
 #     Import-Module PSReadLine
 # }
 Import-Module -Name posh-git
 Import-Module -Name Terminal-Icons
-Import-Module oh-my-posh
 Set-Alias desktop "Desktop.ps1"
 
-$theme = ls ~\OneDrive\Documents\PowerShell\Modules\oh-my-posh\5.16.4\themes\ | Get-Random
-Set-PoshPrompt -Theme $theme.Name.split('.')[0]
-Clear-Variable theme
 
 Register-ArgumentCompleter -Native -CommandName winget -ScriptBlock {
     param($wordToComplete, $commandAst, $cursorPosition)
@@ -213,7 +209,7 @@ Set-PSReadLineKeyHandler -Key '"',"'" `
 
     # If cursor is at the start of a token, enclose it in quotes.
     if ($token.Extent.StartOffset -eq $cursor) {
-        if ($token.Kind -eq [TokenKind]::Generic -or $token.Kind -eq [TokenKind]::Identifier -or 
+        if ($token.Kind -eq [TokenKind]::Generic -or $token.Kind -eq [TokenKind]::Identifier -or
             $token.Kind -eq [TokenKind]::Variable -or $token.TokenFlags.hasFlag([TokenFlags]::Keyword)) {
             $end = $token.Extent.EndOffset
             $len = $end - $cursor
@@ -247,7 +243,7 @@ Set-PSReadLineKeyHandler -Key '(','{','[' `
     $line = $null
     $cursor = $null
     [Microsoft.PowerShell.PSConsoleReadLine]::GetBufferState([ref]$line, [ref]$cursor)
-    
+
     if ($selectionStart -ne -1)
     {
       # Text is selected, wrap it in brackets
@@ -613,28 +609,28 @@ Set-PSReadLineKeyHandler -Key RightArrow `
 
 # Cycle through arguments on current line and select the text. This makes it easier to quickly change the argument if re-running a previously run command from the history
 # or if using a psreadline predictor. You can also use a digit argument to specify which argument you want to select, i.e. Alt+1, Alt+a selects the first argument
-# on the command line. 
+# on the command line.
 Set-PSReadLineKeyHandler -Key Alt+a `
                          -BriefDescription SelectCommandArguments `
                          -LongDescription "Set current selection to next command argument in the command line. Use of digit argument selects argument by position" `
                          -ScriptBlock {
     param($key, $arg)
-  
+
     $ast = $null
     $cursor = $null
     [Microsoft.PowerShell.PSConsoleReadLine]::GetBufferState([ref]$ast, [ref]$null, [ref]$null, [ref]$cursor)
-  
+
     $asts = $ast.FindAll( {
         $args[0] -is [System.Management.Automation.Language.ExpressionAst] -and
         $args[0].Parent -is [System.Management.Automation.Language.CommandAst] -and
         $args[0].Extent.StartOffset -ne $args[0].Parent.Extent.StartOffset
       }, $true)
-  
+
     if ($asts.Count -eq 0) {
         [Microsoft.PowerShell.PSConsoleReadLine]::Ding()
         return
     }
-    
+
     $nextAst = $null
 
     if ($null -ne $arg) {
@@ -646,8 +642,8 @@ Set-PSReadLineKeyHandler -Key Alt+a `
                 $nextAst = $ast
                 break
             }
-        } 
-        
+        }
+
         if ($null -eq $nextAst) {
             $nextAst = $asts[0]
         }
@@ -661,7 +657,7 @@ Set-PSReadLineKeyHandler -Key Alt+a `
             $startOffsetAdjustment = 1
             $endOffsetAdjustment = 2
     }
-  
+
     [Microsoft.PowerShell.PSConsoleReadLine]::SetCursorPosition($nextAst.Extent.StartOffset + $startOffsetAdjustment)
     [Microsoft.PowerShell.PSConsoleReadLine]::SetMark($null, $null)
     [Microsoft.PowerShell.PSConsoleReadLine]::SelectForwardChar($null, ($nextAst.Extent.EndOffset - $nextAst.Extent.StartOffset) - $endOffsetAdjustment)
@@ -726,7 +722,6 @@ $GitPromptSettings.AfterStatus.ForegroundColor = [ConsoleColor]::Blue
 function sccwd() {
     pwd | Set-Clipboard
 }
-<<<<<<< HEAD
 
 function fuck() {
     echo "Fuck Windows. Windows is the most disgusting fucking piece of shit"
@@ -754,3 +749,6 @@ function BDEKeys() {
         BitlockerKey $_
     }
 }
+
+
+oh-my-posh init pwsh --config "C:\Users\quant\OneDrive\Documents\PowerShell\Modules\oh-my-posh\themes\$((ls 'C:\Users\quant\OneDrive\Documents\PowerShell\Modules\oh-my-posh\themes'|Get-Random).Name)" | iex
