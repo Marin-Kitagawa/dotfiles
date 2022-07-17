@@ -573,3 +573,17 @@ podgquay () {
 
 LUNARPATH="/home/voidflow/.local/bin"
 echo $PATH | grep -q $LUNARPATH || export PATH="$PATH:$LUNARPATH"
+
+# VMWare Mount
+## Arguments: 1: Host path, 2: Guest path
+vmmount() {
+    sudo vmhgfs-fuse .host:/$1 $2 -o subtype=vmhgfs-fuse,allow_other
+}
+
+
+# Go back `n` levels
+back () {
+    for i in `seq 1 $1`; do
+        cd ..
+    done
+}
