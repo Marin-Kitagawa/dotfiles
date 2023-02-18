@@ -1,10 +1,6 @@
 using namespace System.Management.Automation
 using namespace System.Management.Automation.Language
-
-# if ($host.Name -eq 'ConsoleHost')
-# {
-#     Import-Module PSReadLine
-# }
+ 
 Import-Module -Name posh-git
 Import-Module -Name Terminal-Icons
 Set-Alias desktop "Desktop.ps1"
@@ -20,7 +16,6 @@ Register-ArgumentCompleter -Native -CommandName winget -ScriptBlock {
         }
 }
 
-# PowerShell parameter completion shim for the dotnet CLI
 Register-ArgumentCompleter -Native -CommandName dotnet -ScriptBlock {
      param($commandName, $wordToComplete, $cursorPosition)
          dotnet complete --position $cursorPosition "$wordToComplete" | ForEach-Object {
@@ -28,27 +23,13 @@ Register-ArgumentCompleter -Native -CommandName dotnet -ScriptBlock {
          }
  }
 
-# ---
 
 
-# This is an example profile for PSReadLine.
 #
-# This is roughly what I use so there is some emphasis on emacs bindings,
-# but most of these bindings make sense in Windows mode as well.
 
-# Searching for commands with up/down arrow is really handy.  The
-# option "moves to end" is useful if you want the cursor at the end
-# of the line while cycling through history like it does w/o searching,
-# without that option, the cursor will remain at the position it was
-# when you used up arrow, which can be useful if you forget the exact
-# string you started the search on.
 Set-PSReadLineKeyHandler -Key UpArrow -Function HistorySearchBackward
 Set-PSReadLineKeyHandler -Key DownArrow -Function HistorySearchForward
 
-# This key handler shows the entire or filtered history using Out-GridView. The
-# typed text is used as the substring pattern for filtering. A selected command
-# is inserted to the command line without invoking. Multiple command selection
-# is supported, e.g. selected by Ctrl + Click.
 Set-PSReadLineKeyHandler -Key F7 `
                          -BriefDescription History `
                          -LongDescription 'Show command history' `
@@ -103,14 +84,8 @@ Set-PSReadLineKeyHandler -Key F7 `
 }
 
 
-# CaptureScreen is good for blog posts or email showing a transaction
-# of what you did when asking for help or demonstrating a technique.
 Set-PSReadLineKeyHandler -Chord 'Ctrl+d,Ctrl+c' -Function CaptureScreen
 
-# The built-in word movement uses character delimiters, but token based word
-# movement is also very useful - these are the bindings you'd use if you
-# prefer the token based movements bound to the normal emacs word movement
-# key bindings.
 Set-PSReadLineKeyHandler -Key Alt+d -Function ShellKillWord
 Set-PSReadLineKeyHandler -Key Alt+Backspace -Function ShellBackwardKillWord
 Set-PSReadLineKeyHandler -Key Alt+b -Function ShellBackwardWord
@@ -120,10 +95,6 @@ Set-PSReadLineKeyHandler -Key Alt+F -Function SelectShellForwardWord
 
 #region Smart Insert/Delete
 
-# The next four key handlers are designed to make entering matched quotes
-# parens, and braces a nicer experience.  I'd like to include functions
-# in the module that do this, but this implementation still isn't as smart
-# as ReSharper, so I'm just providing it as a sample.
 
 Set-PSReadLineKeyHandler -Key '"',"'" `
                          -BriefDescription SmartInsertQuote `
@@ -209,7 +180,7 @@ Set-PSReadLineKeyHandler -Key '"',"'" `
 
     # If cursor is at the start of a token, enclose it in quotes.
     if ($token.Extent.StartOffset -eq $cursor) {
-        if ($token.Kind -eq [TokenKind]::Generic -or $token.Kind -eq [TokenKind]::Identifier -or
+        if ($token.Kind -eq [TokenKind]::Generic -or $token.Kind -eq [TokenKind]::Identifier -or 
             $token.Kind -eq [TokenKind]::Variable -or $token.TokenFlags.hasFlag([TokenFlags]::Keyword)) {
             $end = $token.Extent.EndOffset
             $len = $end - $cursor
@@ -243,7 +214,7 @@ Set-PSReadLineKeyHandler -Key '(','{','[' `
     $line = $null
     $cursor = $null
     [Microsoft.PowerShell.PSConsoleReadLine]::GetBufferState([ref]$line, [ref]$cursor)
-
+    
     if ($selectionStart -ne -1)
     {
       # Text is selected, wrap it in brackets
@@ -314,10 +285,6 @@ Set-PSReadLineKeyHandler -Key Backspace `
 
 #endregion Smart Insert/Delete
 
-# Sometimes you enter a command but realize you forgot to do something else first.
-# This binding will let you save that command in the history so you can recall it,
-# but it doesn't actually execute.  It also clears the line with RevertLine so the
-# undo stack is reset - though redo will still reconstruct the command line.
 Set-PSReadLineKeyHandler -Key Alt+w `
                          -BriefDescription SaveInHistory `
                          -LongDescription "Save current line in history but do not execute" `
@@ -331,7 +298,6 @@ Set-PSReadLineKeyHandler -Key Alt+w `
     [Microsoft.PowerShell.PSConsoleReadLine]::RevertLine()
 }
 
-# Insert text from the clipboard as a here string
 Set-PSReadLineKeyHandler -Key Ctrl+V `
                          -BriefDescription PasteAsHereString `
                          -LongDescription "Paste the clipboard text as a here string" `
@@ -351,9 +317,6 @@ Set-PSReadLineKeyHandler -Key Ctrl+V `
     }
 }
 
-# Sometimes you want to get a property of invoke a member on what you've entered so far
-# but you need parens to do that.  This binding will help by putting parens around the current selection,
-# or if nothing is selected, the whole line.
 Set-PSReadLineKeyHandler -Key 'Alt+(' `
                          -BriefDescription ParenthesizeSelection `
                          -LongDescription "Put parenthesis around the selection or entire line and move the cursor to after the closing parenthesis" `
@@ -379,9 +342,6 @@ Set-PSReadLineKeyHandler -Key 'Alt+(' `
     }
 }
 
-# Each time you press Alt+', this key handler will change the token
-# under or before the cursor.  It will cycle through single quotes, double quotes, or
-# no quotes each time it is invoked.
 Set-PSReadLineKeyHandler -Key "Alt+'" `
                          -BriefDescription ToggleQuoteArgument `
                          -LongDescription "Toggle quotes on the argument under the cursor" `
@@ -443,7 +403,6 @@ Set-PSReadLineKeyHandler -Key "Alt+'" `
     }
 }
 
-# This example will replace any aliases on the command line with the resolved commands.
 Set-PSReadLineKeyHandler -Key "Alt+%" `
                          -BriefDescription ExpandAliases `
                          -LongDescription "Replace all aliases with the full command" `
@@ -483,7 +442,6 @@ Set-PSReadLineKeyHandler -Key "Alt+%" `
     }
 }
 
-# F1 for help on the command line - naturally
 Set-PSReadLineKeyHandler -Key F1 `
                          -BriefDescription CommandHelp `
                          -LongDescription "Open the help window for the current command" `
@@ -524,9 +482,6 @@ Set-PSReadLineKeyHandler -Key F1 `
 
 
 #
-# ^J then type a key to mark the current directory.
-# ^j then the same key will change back to that directory without
-# needing to type cd and won't change the command line.
 
 #
 $global:PSReadLineMarks = @{}
@@ -569,7 +524,6 @@ Set-PSReadLineKeyHandler -Key Alt+j `
     [Microsoft.PowerShell.PSConsoleReadLine]::InvokePrompt()
 }
 
-# Auto correct 'git cmt' to 'git commit'
 Set-PSReadLineOption -CommandValidationHandler {
     param([CommandAst]$CommandAst)
 
@@ -588,8 +542,6 @@ Set-PSReadLineOption -CommandValidationHandler {
     }
 }
 
-# `ForwardChar` accepts the entire suggestion text when the cursor is at the end of the line.
-# This custom binding makes `RightArrow` behave similarly - accepting the next word instead of the entire suggestion text.
 Set-PSReadLineKeyHandler -Key RightArrow `
                          -BriefDescription ForwardCharAndAcceptNextSuggestionWord `
                          -LongDescription "Move cursor one character to the right in the current editing line and accept the next word in suggestion when it's at the end of current editing line" `
@@ -607,30 +559,27 @@ Set-PSReadLineKeyHandler -Key RightArrow `
     }
 }
 
-# Cycle through arguments on current line and select the text. This makes it easier to quickly change the argument if re-running a previously run command from the history
-# or if using a psreadline predictor. You can also use a digit argument to specify which argument you want to select, i.e. Alt+1, Alt+a selects the first argument
-# on the command line.
 Set-PSReadLineKeyHandler -Key Alt+a `
                          -BriefDescription SelectCommandArguments `
                          -LongDescription "Set current selection to next command argument in the command line. Use of digit argument selects argument by position" `
                          -ScriptBlock {
     param($key, $arg)
-
+  
     $ast = $null
     $cursor = $null
     [Microsoft.PowerShell.PSConsoleReadLine]::GetBufferState([ref]$ast, [ref]$null, [ref]$null, [ref]$cursor)
-
+  
     $asts = $ast.FindAll( {
         $args[0] -is [System.Management.Automation.Language.ExpressionAst] -and
         $args[0].Parent -is [System.Management.Automation.Language.CommandAst] -and
         $args[0].Extent.StartOffset -ne $args[0].Parent.Extent.StartOffset
       }, $true)
-
+  
     if ($asts.Count -eq 0) {
         [Microsoft.PowerShell.PSConsoleReadLine]::Ding()
         return
     }
-
+    
     $nextAst = $null
 
     if ($null -ne $arg) {
@@ -642,8 +591,8 @@ Set-PSReadLineKeyHandler -Key Alt+a `
                 $nextAst = $ast
                 break
             }
-        }
-
+        } 
+        
         if ($null -eq $nextAst) {
             $nextAst = $asts[0]
         }
@@ -657,7 +606,7 @@ Set-PSReadLineKeyHandler -Key Alt+a `
             $startOffsetAdjustment = 1
             $endOffsetAdjustment = 2
     }
-
+  
     [Microsoft.PowerShell.PSConsoleReadLine]::SetCursorPosition($nextAst.Extent.StartOffset + $startOffsetAdjustment)
     [Microsoft.PowerShell.PSConsoleReadLine]::SetMark($null, $null)
     [Microsoft.PowerShell.PSConsoleReadLine]::SelectForwardChar($null, ($nextAst.Extent.EndOffset - $nextAst.Extent.StartOffset) - $endOffsetAdjustment)
@@ -669,8 +618,6 @@ Set-PSReadLineOption -PredictionViewStyle ListView
 Set-PSReadLineOption -EditMode Windows
 
 
-# This is an example of a macro that you might use to execute a command.
-# This will add the command to history.
 Set-PSReadLineKeyHandler -Key Ctrl+Shift+b `
                          -BriefDescription BuildCurrentDirectory `
                          -LongDescription "Build the current directory" `
@@ -696,7 +643,6 @@ function rmrf($a) {
     rm -Recurse -Force $a
 }
 
-# Dracula readline configuration. Requires version 2.0, if you have 1.2 convert to `Set-PSReadlineOption -TokenType`
 Set-PSReadlineOption -Color @{
     "Command" = [ConsoleColor]::Green
     "Parameter" = [ConsoleColor]::Gray
@@ -707,14 +653,12 @@ Set-PSReadlineOption -Color @{
     "Type" = [ConsoleColor]::Cyan
     "Comment" = [ConsoleColor]::DarkCyan
 }
-# Dracula Prompt Configuration
 Import-Module posh-git
 $GitPromptSettings.DefaultPromptPrefix.Text = "$([char]0x2192) " # arrow unicode symbol
 $GitPromptSettings.DefaultPromptPrefix.ForegroundColor = [ConsoleColor]::Green
 $GitPromptSettings.DefaultPromptPath.ForegroundColor =[ConsoleColor]::Cyan
 $GitPromptSettings.DefaultPromptSuffix.Text = "$([char]0x203A) " # chevron unicode symbol
 $GitPromptSettings.DefaultPromptSuffix.ForegroundColor = [ConsoleColor]::Magenta
-# Dracula Git Status Configuration
 $GitPromptSettings.BeforeStatus.ForegroundColor = [ConsoleColor]::Blue
 $GitPromptSettings.BranchColor.ForegroundColor = [ConsoleColor]::Blue
 $GitPromptSettings.AfterStatus.ForegroundColor = [ConsoleColor]::Blue
@@ -730,6 +674,12 @@ function fuck() {
         echo $i
     }
     exit
+}
+
+function back($levels) {
+    for($i=0; $i -lt $levels; $i++) {
+        cd ..
+    }
 }
 
 function BitlockerKey($drive) {
@@ -750,5 +700,89 @@ function BDEKeys() {
     }
 }
 
+function nigc {
+    param (
+            [string]$location = 'local',
+            [string]$package = '.'
+    )
+    npm uninstall --location=$location $package
+    npm i --location=$location $package
+}
 
-oh-my-posh init pwsh --config "C:\Users\quant\OneDrive\Documents\PowerShell\Modules\oh-my-posh\themes\$((ls 'C:\Users\quant\OneDrive\Documents\PowerShell\Modules\oh-my-posh\themes'|Get-Random).Name)" | iex
+function find_wifi_pwd() {
+    $a = netsh wlan show profile
+}
+
+function c() {
+    cls;
+    ani-cli
+}
+
+function p() {
+    ping google.com
+}
+
+function i() {
+    ipconfig /flushdns
+    ipconfig /release
+    ipconfig /renew
+}
+
+function ii() {
+    p
+}
+
+# Function gitstall {
+#     $sourceList = [ordered]@{
+#         "gh" = "github.com";
+#         "gl" = "gitlab.com";
+#         "bb" = "bitbucket.com";
+#     }
+#     param(
+#         [String]$repo,
+#         [String]$destination = 'D:/Github',
+#         [String]$source = "gh"
+#     )
+#     cd $destination
+#     if($source -Eq "gh") {
+#         gh repo clone $repo
+#     } else {
+#         git clone "https://$($sourceList[$source])/$repo";
+#         cd $repo.Split('/')[-1]
+#     }
+#     if(Test-Path "package.json") {
+#         ls | ForEach {
+#             if($_ -match "\.lock$") {
+#                 rmrf $_
+#             }
+#         }
+#         if(Get-Command pnpm -ErrorAction SilentlyContinue) {
+#             pnpm install
+#         } elseif(Get-Command yarn -ErrorAction SilentlyContinue) {
+#             yarn
+#         } else {
+#             npm i
+#         }
+#     }
+# }
+
+# starship init powershell | iex
+oh-my-posh init pwsh --config "$env:POSH_THEMES_PATH\$($(ls $env:POSH_THEMES_PATH | Get-Random).Name)" | iex
+$names = "Amritha Aiyer", "Megha Akash"
+cls
+figurine $($names | Get-Random)
+
+Set-Alias lvim 'C:\Users\quant\.local\bin\lvim.ps1'
+function topconf() {
+   lvim "C:\Users\quant\AppData\Roaming\topgrade.toml"
+}
+
+function dlcb() {
+    $cb = Get-Clipboard
+    $name = $cb.Split("/")[-1]
+    iwr -useb $cb -o $name
+}
+
+function pingu($URL) {
+    D:\pingu\pingu.exe $URL
+}
