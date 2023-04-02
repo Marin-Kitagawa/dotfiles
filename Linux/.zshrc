@@ -1,3 +1,10 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -79,6 +86,7 @@ plugins=(
     history-search-multi-word
     fzf-tab
     you-should-use
+    command-not-found
     ruby
     python
 )
@@ -816,6 +824,7 @@ then
 fi
 
 alias z='zoxide'
+alias sz='source ~/.zshrc'
 
 ### Added by Zinit's installer
 if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
@@ -825,10 +834,7 @@ if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
         print -P "%F{33} %F{34}Installation successful.%f%b" || \
         print -P "%F{160} The clone has failed.%f%b"
 fi
-if ! command -v zinit
-then
-	bash -c "$(curl --fail --show-error --silent --location https://raw.githubusercontent.com/zdharma-continuum/zinit/HEAD/scripts/install.sh)"
-fi
+
 source "$HOME/.local/share/zinit/zinit.git/zinit.zsh"
 autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
@@ -843,3 +849,36 @@ zinit light-mode for \
 
 ### End of Zinit's installer chunk
 zinit load zdharma-continuum/history-search-multi-word
+
+# Auto `ls` plugin
+zinit ice wait'0' lucid
+zinit load desyncr/auto-ls
+
+# Powerline 10k plugin
+zinit ice depth=1
+zinit light romkatv/powerlevel10k
+
+# Calculator Plugin zsh
+zinit ice wait'0' lucid
+zinit load arzzen/calc.plugin.zsh
+
+# send.zsh plugin 
+# Add, Commit, Pull and push in one go
+# Usage: send "commit message"
+zinit ice wait'0' lucid
+zinit load robertzk/send.zsh
+
+# Better zsh `npm` completions
+zinit ice wait'0' lucid
+zinit load lukechilds/zsh-better-npm-completion
+
+# Higher-order functions in zsh
+zinit ice wait'0' lucid
+zinit load Tarrasch/zsh-functional
+
+# fzf marks for easier access
+zinit ice wait'0' lucid
+zinit load urbainvaes/fzf-marks
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
