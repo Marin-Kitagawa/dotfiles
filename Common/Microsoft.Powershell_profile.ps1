@@ -768,9 +768,7 @@ function ii() {
 
 # starship init powershell | iex
 oh-my-posh init pwsh --config "$env:POSH_THEMES_PATH\$($(ls $env:POSH_THEMES_PATH | Get-Random).Name)" | iex
-$names = "Amritha Aiyer", "Megha Akash"
 cls
-figurine $($names | Get-Random)
 
 Set-Alias lvim 'C:\Users\quant\.local\bin\lvim.ps1'
 function topconf() {
