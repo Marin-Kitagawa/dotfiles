@@ -778,6 +778,37 @@ alias personal='cp -Rf /personal/* ~'
 
 # Startup Commands
 cls
-# neofetch
+if command -v neofetch &>/dev/null
+then
+	neofetch
+else
+	if command -v pacman &>/dev/null
+	then
+		sudo pacman -Syu neofetch
+	fi
+	if commnd -v dnf &>/dev/null
+	then
+		sudo dnf install neofetch
+	fi
+	if command -v rpm &>/dev/null
+	then
+		sudo rpm install neofetch
+	fi
+	if command -v apt &>/dev/null
+	then
+		sudo apt install nala
+		sudo nala update && sudo nala upgrade && sudo nala install neofetch
+	fi
+	neofetch
+fi
 
 # eval "$(starship init zsh)"
+
+if command -v exa &>/dev/null
+then
+	alias ls='exa -alh'
+	alias ll='exa -alh'
+	alias l='exa -alh'
+fi
+
+
