@@ -1,9 +1,3 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
 
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
@@ -854,10 +848,6 @@ zinit load zdharma-continuum/history-search-multi-word
 zinit ice wait'0' lucid
 zinit load desyncr/auto-ls
 
-# Powerline 10k plugin
-zinit ice depth=1
-zinit light romkatv/powerlevel10k
-
 # Calculator Plugin zsh
 zinit ice wait'0' lucid
 zinit load arzzen/calc.plugin.zsh
@@ -880,5 +870,4 @@ zinit load Tarrasch/zsh-functional
 zinit ice wait'0' lucid
 zinit load urbainvaes/fzf-marks
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+zinit light z-shell/F-Sy-H
