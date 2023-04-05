@@ -784,6 +784,16 @@ alias personal='cp -Rf /personal/* ~'
 
 
 # Startup Commands
+
+
+if [ ! -d ~/github/enhancd/ ]; then 
+  source ~/github/enhancd/init.sh
+else
+  mcd ~/github
+  git clone https://github.com/b4b4r07/enhancd 
+  source enhancd/init.sh
+fi
+
 cls
 if command -v neofetch &>/dev/null
 then
@@ -810,7 +820,7 @@ else
 fi
 
 # eval "$(starship init zsh)"
-if command -v exa
+if command -v exa &>/dev/null
 then
   alias ls='exa -alh'
   alias ll='exa -alh'
