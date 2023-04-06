@@ -845,7 +845,6 @@ fi
 
 alias z='zoxide'
 alias sz='source ~/.zshrc'
-alias nz='nvim ~/.zshrc'
 
 ### Added by Zinit's installer
 if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
