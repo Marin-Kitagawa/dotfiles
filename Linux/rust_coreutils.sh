@@ -1,4 +1,4 @@
-cargo install sd hyperfine du-dust dutree ytop bottom procs skim bat exa fd-find starship ripgrep tokei tealdeer bandwhich grex rmesg zoxide git-delta tp-note nu sd bandwhich cargo-install-update cargo-install-update-config choose coreutils cpc dust dutree eva hck hyperfine jql just navi nu rnr sd sk systeroid systeroid-tui tokei xcp xh zoxide
+cargo install sd hyperfine du-dust dutree ytop bottom procs skim bat exa fd-find starship ripgrep tokei tealdeer bandwhich grex rmesg zoxide git-delta tp-note nu sd bandwhich topgrade cargo-update choose coreutils cpc dutree eva hck hyperfine jql just navi nu rnr sd systeroid systeroid-tui tokei xcp xh zoxide
 ########################################
 #                                      #
 #                                      #
