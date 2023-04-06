@@ -71,18 +71,44 @@ ZSH_THEME="random"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
+# Sort by width
+# :'<,'> ! awk '{print length(), $0 | "sort -n | cur -d\\  -f2-"}'
+if ! command -v autojump &>/dev/null
+then
+  yay -S autojump
+fi
+
+pacman -Q | rg git-extras || yay -S git-extras-git
+
+# Installing git-flow
+wget -q  https://raw.githubusercontent.com/petervanderdoes/gitflow-avh/develop/contrib/gitflow-installer.sh && sudo bash gitflow-installer.sh install develop; rm gitflow-installer.sh
+
+if [ ! -d ~/zsh_scripts ]; then
+  mcd zsh_scripts
+  curl https://raw.githubusercontent.com/petervanderdoes/git-flow-completion/develop/git-flow-completion.zsh -o git-flow-completion.zsh
+  source git-flow-completion.zsh
+  cd $HOME
+fi
+
+
 plugins=(
+    cp
     git
-    zsh-autosuggestions
-    zsh-syntax-highlighting
-    fast-syntax-highlighting
-    zsh-history-substring-search
-    history-search-multi-word
-    fzf-tab
+    ruby
+    emoji
+    emotty
+    python
+    extract
+    autojump
+    copyfile
+    dircycle
+    encode64
+    jsontools
+    git-extras
     you-should-use
     command-not-found
-    ruby
-    python
+    zsh-autosuggestions
+    zsh-syntax-highlighting
 )
 fpath+=${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions/src
 source $ZSH/oh-my-zsh.sh
@@ -792,6 +818,7 @@ else
   mcd ~/github
   git clone https://github.com/b4b4r07/enhancd 
   source enhancd/init.sh
+  cd $HOME
 fi
 
 cls
@@ -881,3 +908,4 @@ zinit ice wait'0' lucid
 zinit load urbainvaes/fzf-marks
 
 zinit light z-shell/F-Sy-H
+alias shopt='/usr/bin/shopt'
