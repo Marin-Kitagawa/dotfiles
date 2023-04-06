@@ -78,7 +78,7 @@ then
   yay -S autojump
 fi
 
-pacman -Q | rg git-extras || yay -S git-extras-git
+yay -Q | rg git-extras || yay -S git-extras-git
 
 # Installing git-flow
 wget -q  https://raw.githubusercontent.com/petervanderdoes/gitflow-avh/develop/contrib/gitflow-installer.sh && sudo bash gitflow-installer.sh install develop; rm gitflow-installer.sh
