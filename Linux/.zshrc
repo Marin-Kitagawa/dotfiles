@@ -78,10 +78,7 @@ then
   yay -S autojump
 fi
 
-pacman -Q | rg git-extras || yay -S git-extras-git
-
-# Installing git-flow
-git flow &>/dev/null || wget -q  https://raw.githubusercontent.com/petervanderdoes/gitflow-avh/develop/contrib/gitflow-installer.sh && sudo bash gitflow-installer.sh install develop
+yay -Q | rg git-extras || yay -S git-extras-git
 
 if [ ! -d ~/zsh_scripts ]; then
   mcd zsh_scripts
@@ -812,11 +809,13 @@ alias personal='cp -Rf /personal/* ~'
 # Startup Commands
 
 
-if [ ! -d ~/github/enhancd/ ]; then 
+if [ -d ~/github/enhancd/ ]; then 
+  chmod +x ~/github/enhancd/init.sh
   source ~/github/enhancd/init.sh
 else
   mcd ~/github
-  git clone https://github.com/b4b4r07/enhancd 
+  git clone https://github.com/Marin-Kitagawa/enhancd 
+  chmod +x ~/github/enhancd/init.sh
   source enhancd/init.sh
   cd $HOME
 fi
