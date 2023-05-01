@@ -784,3 +784,14 @@ function dlcb() {
 function pingu($URL) {
     D:\pingu\pingu.exe $URL
 }
+
+
+Import-Module PSFzf
+
+# Override PSReadLine's history search
+Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+t' `
+                -PSReadlineChordReverseHistory 'Ctrl+r'
+
+# Override default tab completion
+Set-PSReadLineKeyHandler -Key Tab -ScriptBlock { Invoke-FzfTabCompletion }
+
