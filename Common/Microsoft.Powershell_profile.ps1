@@ -653,28 +653,11 @@ Set-PSReadlineOption -Color @{
     "Type" = [ConsoleColor]::Cyan
     "Comment" = [ConsoleColor]::DarkCyan
 }
-Import-Module posh-git
-$GitPromptSettings.DefaultPromptPrefix.Text = "$([char]0x2192) " # arrow unicode symbol
-$GitPromptSettings.DefaultPromptPrefix.ForegroundColor = [ConsoleColor]::Green
-$GitPromptSettings.DefaultPromptPath.ForegroundColor =[ConsoleColor]::Cyan
-$GitPromptSettings.DefaultPromptSuffix.Text = "$([char]0x203A) " # chevron unicode symbol
-$GitPromptSettings.DefaultPromptSuffix.ForegroundColor = [ConsoleColor]::Magenta
-$GitPromptSettings.BeforeStatus.ForegroundColor = [ConsoleColor]::Blue
-$GitPromptSettings.BranchColor.ForegroundColor = [ConsoleColor]::Blue
-$GitPromptSettings.AfterStatus.ForegroundColor = [ConsoleColor]::Blue
 
 function sccwd() {
     pwd | Set-Clipboard
 }
 
-function fuck() {
-    echo "Fuck Windows. Windows is the most disgusting fucking piece of shit"
-    echo "Fucking this fucking moronic terminal now"
-    for($i=0;$i++ -lt 10;){
-        echo $i
-    }
-    exit
-}
 
 function back($levels) {
     for($i=0; $i -lt $levels; $i++) {
@@ -732,48 +715,6 @@ function ii() {
     p
 }
 
-# Function gitstall {
-#     $sourceList = [ordered]@{
-#         "gh" = "github.com";
-#         "gl" = "gitlab.com";
-#         "bb" = "bitbucket.com";
-#     }
-#     param(
-#         [String]$repo,
-#         [String]$destination = 'D:/Github',
-#         [String]$source = "gh"
-#     )
-#     cd $destination
-#     if($source -Eq "gh") {
-#         gh repo clone $repo
-#     } else {
-#         git clone "https://$($sourceList[$source])/$repo";
-#         cd $repo.Split('/')[-1]
-#     }
-#     if(Test-Path "package.json") {
-#         ls | ForEach {
-#             if($_ -match "\.lock$") {
-#                 rmrf $_
-#             }
-#         }
-#         if(Get-Command pnpm -ErrorAction SilentlyContinue) {
-#             pnpm install
-#         } elseif(Get-Command yarn -ErrorAction SilentlyContinue) {
-#             yarn
-#         } else {
-#             npm i
-#         }
-#     }
-# }
-
-# starship init powershell | iex
-oh-my-posh init pwsh --config "$env:POSH_THEMES_PATH\$($(ls $env:POSH_THEMES_PATH | Get-Random).Name)" | iex
-cls
-
-Set-Alias lvim 'C:\Users\quant\.local\bin\lvim.ps1'
-function topconf() {
-   lvim "C:\Users\quant\AppData\Roaming\topgrade.toml"
-}
 
 function dlcb() {
     $cb = Get-Clipboard
@@ -786,12 +727,27 @@ function pingu($URL) {
 }
 
 
-Import-Module PSFzf
+function neoconf() {
+    cd $env:localappdata\nvim\lua\user
+    if(Get-Command nvim -ErrorAction SilentlyContinue) {
+        nvim init.lua
+    }
+}
 
-# Override PSReadLine's history search
-Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+t' `
-                -PSReadlineChordReverseHistory 'Ctrl+r'
+Set-Alias -Name z -Value __zoxide_z -Option AllScope -Scope Global -Force
+Set-Alias -Name zi -Value __zoxide_zi -Option AllScope -Scope Global -Force
 
-# Override default tab completion
-Set-PSReadLineKeyHandler -Key Tab -ScriptBlock { Invoke-FzfTabCompletion }
+function b() {
+    cd ..
+}
+Set-Alias -Name csl -Value cls
 
+function f() {
+    fzf --preview "bat --color=always --style=numbers {}"
+}
+
+# Get Random Theme
+$theme = $(ls "C:\Users\quant\AppData\Local\Programs\oh-my-posh\themes" | Get-Random)
+
+oh-my-posh init pwsh --config $theme | Invoke-Expression
+cls
