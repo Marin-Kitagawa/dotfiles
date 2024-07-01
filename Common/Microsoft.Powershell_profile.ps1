@@ -736,6 +736,7 @@ function neoconf() {
  
 Set-Alias -Name z -Value __zoxide_z -Option AllScope -Scope Global -Force
 Set-Alias -Name zi -Value __zoxide_zi -Option AllScope -Scope Global -Force
+Set-Alias -Name reboot -Value Restart-Computer
  
 function b() {
     cd ..
